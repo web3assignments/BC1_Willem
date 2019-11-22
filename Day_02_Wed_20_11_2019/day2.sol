@@ -27,7 +27,7 @@ contract WhatAreTheOdds {
   	function GuessNumberOne(uint FirstOdds) public {
   	    uint list1 = List1Length();
         uint list2 = List2Length();
-        require(list1 == list2 + 1, "Player 2 must enter odds first");
+        require(list1 == list2, "Not your turn");
        	guessOne =FirstOdds;
       	require(odds > 0, "No odds given");
       	require(guessOne <= odds,"Has to be lower than the odd");
@@ -41,7 +41,7 @@ contract WhatAreTheOdds {
     function GuessNumberTwo(uint SecondOdds) public returns(uint) {
         uint list1 = List1Length();
         uint list2 = List2Length();
-        require(list1 == list2 + 1, "Player 1 must enter odds first");
+        require(list1 == list2 + 1, "Not your turn");
         guessTwo =SecondOdds;
         require(odds > 0, "No odds given");
       	require(guessTwo <= odds,"Has to be lower than the odd");
@@ -63,11 +63,11 @@ contract WhatAreTheOdds {
         return winner;
     }
     
-    function List1Length() public returns(uint) {
+    function List1Length() public view returns(uint) {
       return GuessedOddsPlayer1.length;
     }
     
-    function List2Length() public returns(uint) {
+    function List2Length() public view returns(uint) {
       return GuessedOddsPlayer2.length;
     }
   
