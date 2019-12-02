@@ -1,0 +1,97 @@
+const Web3 = require('web3');
+const web3 = new Web3('HTTP://127.0.0.1:8545');
+const WhatAreTheOddsABI = [{
+        "constant": false,
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "g",
+                "type": "uint256"
+            }
+        ],
+        "name": "GiveTheOdds",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }, {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "odd1",
+                "type": "uint256"
+            }
+        ],
+        "name": "Odds1",
+        "type": "event"
+    }, {
+        "constant": false,
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "g",
+                "type": "uint256"
+            }
+        ],
+        "name": "GuessNumberOne",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }, {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "odd2",
+                "type": "uint256"
+            }
+        ],
+        "name": "Odds2",
+        "type": "event"
+    }, {
+        "constant": false,
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "g",
+                "type": "uint256"
+            }
+        ],
+        "name": "GuessNumberTwo",
+        "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+];
+async function f() {
+    const WhatAreTheOdds = "0x90CA4759b9cd73A144E4f1eA5b91d39Cc0afc515"
+        var acts = await web3.eth.getAccounts();
+    const ContractWhatAreTheOdds = new web3.eth.Contract(WhatAreTheOddsABI, WhatAreTheOdds);
+    var result = await ContractWhatAreTheOdds.methods.GiveTheOdds(5).send({
+            from: acts[0]
+        }).catch(console.log);
+    console.log(result.events[0].raw.data);
+    //	var decoded=web3.eth.abi.decodeParameters(WhatAreTheOddsABI, result.events[0].data)
+
+
+    //	console.log(decoded);
+    var result = await ContractWhatAreTheOdds.methods.GuessNumberOne(4).send({
+            from: acts[0]
+        }).catch(console.log);
+
+    var result = await ContractWhatAreTheOdds.methods.GuessNumberTwo(4).send({
+            from: acts[0]
+        }).catch(console.log);
+
+    var result = await ContractWhatAreTheOdds.methods.GuessNumberTwo(4).call({
+            from: acts[0]
+        }).catch(console.log);
+    console.log('The winner is Player', (result));
+
+}
+f();
