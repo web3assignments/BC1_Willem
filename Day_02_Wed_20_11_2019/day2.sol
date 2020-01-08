@@ -70,5 +70,16 @@ contract WhatAreTheOdds {
     function List2Length() public view returns(uint) {
       return GuessedOddsPlayer2.length;
     }
-  
+
+    
+    mapping(address => uint) public currentGuess;  
+    
+    function guessedWinner(address _addr) public view returns (uint){      // call via an address which person is expected to win
+        return currentGuess[_addr];
+    }
+    
+    function guessAWinner(address _address, uint _guess) public {           // save via an address who you expect to win
+        currentGuess[_address] = _guess;
+    }
+
 }
