@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPFS</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="https://wzrd.in/standalone/buffer"></script>
+    <script src="https://unpkg.com/ipfs-http-client/dist/index.js"></script>   
+	<script src="https://bundle.run/buffer"></script>  
+
+</head>
+
+<body>
+	<h1>Using IPFS</h1>
+    <form action="/">
+			<p>Upload</p>
+            <input type="file" name="file" id="file">
+			<p></p>
+            <button type="button" onclick="upload()">Upload</button>
+
+        </br>
+			<p>Download</p>
+            <input type="text" id="hash" style="width: 350px;">
+            <button type="button" onclick="downloadIPFS()">Go</button>
+
+    </form>
+	
+	
+<script type="text/javascript">
+	function upload() {
+		const reader = new FileReader();
+        reader.onloadend = function() {
+			const ipfs = window.IpfsHttpClient('https://ipfs.infura.io:5001'); 			const buf = buffer.Buffer(reader.result) // Convert data into buffer
+			ipfs.add(file.files[0], (err, result) => { // Upload buffer to IPFS
+				if(err) {
+				console.error(err)
+				return
+			}
+			document.getElementById("hash").value = result[0].hash
+
+        })
+      }
+	  const file = document.getElementById("file");
+
+	  reader.readAsArrayBuffer(file.files[0]); // Read Provided File
+    }	
+	 
+	async function downloadIPFS(){
+        let link = `https://ipfs.io/ipfs/${document.getElementById("hash").value}`
+        window.open(link)
+	}
+	
+</script>
+
+</body>
+
+</html>
