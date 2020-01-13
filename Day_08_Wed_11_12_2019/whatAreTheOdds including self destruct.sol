@@ -1,4 +1,4 @@
-pragma solidity >=0.5.0 <0.7.0;
+pragma solidity ^0.5.12;
 import "github.com/provable-things/ethereum-api/provableAPI.sol";
 
 
