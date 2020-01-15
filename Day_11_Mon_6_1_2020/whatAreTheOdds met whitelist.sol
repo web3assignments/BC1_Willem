@@ -24,7 +24,11 @@ contract WhatAreTheOdds is usingProvable, Ownable {
     member[] public GuessedOddsPlayer1;
     member[] public GuessedOddsPlayer2;
   
-    function GiveTheOddsPlayerOne(uint GiveOdds) public  { 
+    function GiveTheOddsPlayerOne(uint GiveOdds, address _member) public  { 
+        require(
+            isMember(_member),
+            "Address is not a member"
+        );
         odds=GiveOdds;
         require(odds < 11, "Odds too high");
         require(odds > 1, "odds have to be above 2");
