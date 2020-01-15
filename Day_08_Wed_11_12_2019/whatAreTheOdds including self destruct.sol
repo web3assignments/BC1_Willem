@@ -106,7 +106,7 @@ contract Factory {
     bytes mmcode= type(WhatAreTheOdds).creationCode;
     WhatAreTheOdds public deployedWhatAreTheOdds;
 
-    function NameDeployedWhatAreTheOddsl() public view returns (string memory) {
+    function NameDeployedWhatAreTheOdds() public view returns (string memory) {
         return deployedWhatAreTheOdds.name();
     }
     function DestroyDeployedWhatAreTheOdds() public {
