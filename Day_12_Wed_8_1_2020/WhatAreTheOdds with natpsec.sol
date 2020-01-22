@@ -14,12 +14,6 @@ contract WhatAreTheOdds{
 /// @notice If Player 1 and 2 both guess the same number, Player 1 wins
 /// @notice Otherwise Player 2 wins
 /// @dev this is the application in it's most basic form
-/// @param odds, int between 0 and int
-/// @param guessOne, int between 0 and odds
-/// @param guessTwo, int between 0 and odds
-/// @param winner, int of player that has Won
-/// @param winsPLayerOne, number of wins player 1
-/// @param winsPLayerTwo, number of wins player 2
 /// @return GuessNumberTwo, winner of the game
 /// @return List1Length, number of guesses player 1
 /// @return List2Length , number of guesses player 2
@@ -39,14 +33,16 @@ contract WhatAreTheOdds{
     
     member[] public GuessedOddsPlayer1;
     member[] public GuessedOddsPlayer2;
-  
+    
+    /// @param GiveOdds, starting odds, int between 0 and 10
     function GiveTheOddsPlayerOne(uint GiveOdds) public  { 
         odds=GiveOdds;
         require(odds < 11, "Odds too high");
         require(odds > 1, "odds have to be above 2");
         emit Log("The odds are", odds);
     }
-  	
+    
+  	/// @param FirstOdds, int between 0 and odds, player one's guess
   	function GuessNumberOne(uint FirstOdds) public {
   	    uint list1 = List1Length();
         uint list2 = List2Length();
@@ -61,6 +57,7 @@ contract WhatAreTheOdds{
       	emit Log("Player one guessed: ", guessOne);
     }
     
+    /// @param SecondOdds, int between 0 and odds, player two's guess
     function GuessNumberTwo(uint SecondOdds) public returns(uint) {
         uint list1 = List1Length();
         uint list2 = List2Length();
