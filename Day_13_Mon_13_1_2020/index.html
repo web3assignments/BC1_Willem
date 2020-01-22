@@ -1,0 +1,149 @@
+// Contract is on Ropsten testnework
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://web3examples.com/lib/web3-browserify.js"></script>  
+		<title>Versie 6</title>
+
+    </head>
+    <body>
+        <h1>HTML Framework 2</h1>
+        <pre id="log" style="width:100%;height:200px"></pre>
+        <script type="text/javascript">
+        function log(logstr) {   
+            document.getElementById("log").innerHTML +=logstr+"\n";
+        }
+        async function f() { 
+            web3 = new Web3(Web3.givenProvider); // provider from metamask         
+            web3.extend({ // web3.eth.requestAccounts() isn't available (yet)
+                methods: [{
+                    name: 'eth_requestAccounts',
+                    call: 'eth_requestAccounts',
+                    params: 0
+                }]
+            });
+            log(`Version of web3.js: ${web3.version}`);            
+            var result=await web3.eth_requestAccounts().catch(x=>log(x.message));
+            log(`Value from eth_requestAccounts: ${JSON.stringify(result)}`);
+            var acts=await web3.eth.getAccounts().catch(log);
+            log(`Here are the accounts: ${JSON.stringify(acts)}`);
+            
+            log(`This is framework 2`);
+			
+			const WhatAreTheOddsABI = [{									// own contract starts here
+				"constant": false,
+				"inputs": [{
+						"internalType": "uint256",
+						"name": "g",
+						"type": "uint256"
+					}
+				],
+				"name": "GiveTheOdds",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}, {
+				"anonymous": false,
+				"inputs": [{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "odd1",
+						"type": "uint256"
+					}
+				],
+				"name": "Odds1",
+				"type": "event"
+			}, {
+				"constant": false,
+				"inputs": [{
+						"internalType": "uint256",
+						"name": "g",
+						"type": "uint256"
+					}
+				],
+				"name": "GuessNumberOne",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}, {
+				"anonymous": false,
+				"inputs": [{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "odd2",
+						"type": "uint256"
+					}
+				],
+				"name": "Odds2",
+				"type": "event"
+			}, {
+				"constant": false,
+				"inputs": [{
+						"internalType": "uint256",
+						"name": "g",
+						"type": "uint256"
+					}
+				],
+				"name": "GuessNumberTwo",
+				"outputs": [{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		];
+		const WhatAreTheOdds = await web3.eth.ens.getAddress("willemsipfs.eth");  //implemented website
+
+			var acts = await web3.eth.getAccounts();
+		const ContractWhatAreTheOdds = new web3.eth.Contract(WhatAreTheOddsABI, WhatAreTheOdds);
+		var result = await ContractWhatAreTheOdds.methods.GiveTheOdds(5).send({
+				from: acts[0]
+			}).catch(console.log);
+		//  console.log(result.events[0].raw.data);
+		//	var decoded=web3.eth.abi.decodeParameters(WhatAreTheOddsABI, result.events[0].data)
+
+
+		//	console.log(decoded);
+		var result = await ContractWhatAreTheOdds.methods.GuessNumberOne(4).send({
+				from: acts[0]
+			}).catch(console.log);
+
+		var result = await ContractWhatAreTheOdds.methods.GuessNumberTwo(4).send({
+				from: acts[0]
+			}).catch(console.log);
+
+		var result = await ContractWhatAreTheOdds.methods.GuessNumberTwo(4).call({
+				from: acts[0]
+			}).catch(console.log);
+		console.log('The winner is Player', (result));
+		log(`The winner is Player ${JSON.stringify(result)}`);			
+		
+		ethereum.on('accountsChanged', newacts => { 					// check if account is changed
+                acts=newacts;
+                log(`We have new accounts: ${JSON.stringify(acts)}`);
+            })
+			
+			var chainId=await web3.eth.getChainId();						// check if chain is changed
+            log(`We are on chain: ${JSON.stringify(chainId)}`);            
+            ethereum.on('chainChanged', newChain);
+            ethereum.on('networkChanged',newChain); // still used in metamask mobile
+            ethereum.on('chainIdChanged',newChain);      // temp workaround
+            ethereum.autoRefreshOnNetworkChange = false; // temp workaround                    
+            function newChain(newchainId) {
+                chainId=newchainId;
+                log(`We have a new chain: ${chainId}`);
+            }
+        }
+		
+		
+        f();
+        </script>        
+    </body>
+</html>
