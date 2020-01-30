@@ -14,9 +14,6 @@ contract WhatAreTheOdds{
 /// @notice If Player 1 and 2 both guess the same number, Player 1 wins
 /// @notice Otherwise Player 2 wins
 /// @dev this is the application in it's most basic form
-/// @return GuessNumberTwo, winner of the game
-/// @return List1Length, number of guesses player 1
-/// @return List2Length , number of guesses player 2
 
     event Log(string message, uint guess);   // declaring event  
   	uint public odds;
@@ -58,6 +55,7 @@ contract WhatAreTheOdds{
     }
     
     /// @param SecondOdds, int between 0 and odds, player two's guess
+    /// @return GuessNumberTwo, winner of the game
     function GuessNumberTwo(uint SecondOdds) public returns(uint) {
         uint list1 = List1Length();
         uint list2 = List2Length();
@@ -83,10 +81,12 @@ contract WhatAreTheOdds{
         return winner;
     }
     
+    /// @return List1Length, number of guesses player 1
     function List1Length() public view returns(uint) {
       return GuessedOddsPlayer1.length;
     }
     
+    /// @return List2Length , number of guesses player 2
     function List2Length() public view returns(uint) {
       return GuessedOddsPlayer2.length;
     }
