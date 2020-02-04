@@ -6,7 +6,7 @@
 </head>
 
 <body>
-Get curren Ethereum blocknumber<br>
+Get current Ethereum blocknumber<br>
 Compare to <a href="https://etherscan.io/blocks" target="_blank">Etherscan</a>
 <pre id="log" style="width:100%;height:200px"></pre>
 
@@ -73,7 +73,10 @@ Compare to <a href="https://etherscan.io/blocks" target="_blank">Etherscan</a>
 			},
 			body: request
 		});
-    }
+				const content = await rawResponse.json();
+		log(`Received ${JSON.stringify(content)}`);
+		log(`Current blocknumber = ${parseInt(content.result)}`);
+		}
 
 	blockNr();
 	getUncleCount();
@@ -81,6 +84,3 @@ Compare to <a href="https://etherscan.io/blocks" target="_blank">Etherscan</a>
 </script>
 </body>
 <html>
-
-
-
